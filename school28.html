@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4f46e5">
+<title>Примеры со скобками — 2 класс</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1f2937;
+    margin: 0;
+    padding: 16px;
+    background: #f8fafc;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  h1 { font-size: 22px; margin: 0 0 4px; color: #0f172a; }
+  .sub { color: #64748b; font-size: 13px; margin-bottom: 14px; }
+
+  .rule {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid #6366f1;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    margin-bottom: 18px;
+  }
+  .rule b { color: #4338ca; }
+  .rule ul { margin: 6px 0 0; padding-left: 20px; }
+  .rule li { margin: 3px 0; }
+
+  .toolbar { margin-bottom: 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button {
+    background: #4f46e5; color: #fff; border: none;
+    padding: 12px 22px; font-size: 15px; border-radius: 8px;
+    cursor: pointer; font-weight: 600; touch-action: manipulation;
+  }
+  button:active { background: #4338ca; }
+  .btn-speak {
+    background: #0891b2; padding: 8px 16px; font-size: 13px; margin-top: 6px;
+  }
+  .btn-speak:active { background: #0e7490; }
+  .btn-check {
+    background: #059669; padding: 10px 20px; font-size: 14px; margin-top: 4px;
+  }
+  .btn-check:active { background: #047857; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
+  tr.row { page-break-inside: avoid; break-inside: avoid; }
+  td { vertical-align: top; padding: 16px; border-radius: 12px; }
+  td.left { width: 48%; background: #eef2ff; border: 1.5px dashed #a5b4fc; }
+  td.right { width: 52%; background: #ecfdf5; border: 1.5px solid #6ee7b7; }
+
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: .4px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 5px; margin-bottom: 8px;
+  }
+  .badge.do { background: #c7d2fe; color: #3730a3; }
+  .badge.sample { background: #a7f3d0; color: #065f46; }
+
+  .expr { font-size: 26px; font-weight: 700; color: #111827; margin: 2px 0 10px; letter-spacing: .5px; }
+  .expr .res { color: #059669; }
+
+  .speech {
+    font-size: 13px; color: #1f2937; background: #ffffff;
+    border-radius: 7px; padding: 9px 11px; margin-bottom: 9px;
+    border: 1px solid #d1fae5;
+  }
+  .speech b { color: #047857; }
+
+  .steps { font-size: 13.5px; color: #065f46; font-weight: 600; margin-bottom: 8px; }
+  .steps span { display: block; margin: 2px 0; }
+
+  /* Поля ввода для ребёнка */
+  .input-line {
+    display: flex; align-items: center; gap: 8px; margin: 8px 0;
+    font-size: 14px; color: #3730a3; font-weight: 600;
+  }
+  .input-line input {
+    width: 70px; padding: 8px 10px; font-size: 16px;
+    border: 2px solid #a5b4fc; border-radius: 8px;
+    text-align: center; font-weight: 700; color: #1e1b4b;
+    background: #fff; outline: none;
+  }
+  .input-line input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.2); }
+  .input-line input.correct { border-color: #059669; background: #ecfdf5; }
+  .input-line input.wrong { border-color: #dc2626; background: #fef2f2; animation: shake .3s; }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  .result-msg {
+    font-size: 14px; font-weight: 700; margin-top: 6px; min-height: 20px;
+  }
+  .result-msg.ok { color: #059669; }
+  .result-msg.fail { color: #dc2626; }
+
+  @media (max-width: 640px) {
+    body { padding: 10px; font-size: 15px; }
+    h1 { font-size: 19px; }
+    .rule { font-size: 12px; padding: 10px 12px; }
+    td { padding: 12px; }
+    td.left, td.right { width: 100%; display: block; margin-bottom: 10px; }
+    tr.row { display: block; margin-bottom: 16px; }
+    .expr { font-size: 22px; }
+    .speech { font-size: 12px; }
+    .input-line input { width: 60px; padding: 6px 8px; }
+  }
+
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff; padding: 0; font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none !important; }
+    .btn-speak, .btn-check, .btn-reveal { display: none !important; }
+    td.left { width: 46%; } td.right { width: 54%; }
+    .expr { font-size: 19px; } .speech { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Примеры со скобками — 2 класс</h1>
+  <div class="sub">Слева — реши сам. Справа — образец и кнопка «Как говорить».</div>
+
+  <div class="rule">
+    <b>Мини-правило:</b>
+    <ul>
+      <li><b>Знак перед скобкой</b> называет всё выражение: минус → «разность», плюс → «сумма».</li>
+      <li><b>Знак внутри скобок</b> называет то, что в скобках: плюс → «сумма чисел…», минус → «разность чисел…».</li>
+      <li>Сначала скобки, потом действие вне скобок. В конце — ответ.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar no-print">
+    <button onclick="window.print()">💾 Сохранить в PDF</button>
+    <span style="font-size:12.5px;color:#64748b;">В окне печати выберите «Сохранить как PDF».</span>
+  </div>
+
+  <table id="examplesTable">
+    <!-- Примеры будут вставлены через JavaScript -->
+  </table>
+
+</div>
+
+<script>
+/* ====== ДАННЫЕ ПРИМЕРОВ ======
+   left — пример для решения ребёнком
+   right — образец (уже решён)
+   speak — текст, который проговаривается голосом
+   answers — правильные значения для проверки (шаг1, шаг2, итог)
+*/
+const EXAMPLES = [
+  // Тип 1: сумма + сумма в скобках
+  {
+    left: "16 + (3 + 1) =",
+    right: "13 + (4 + 2) = 19",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 13 и суммы чисел 4 и 2. Считаю: 4 плюс 2 равно 6, потом 13 плюс 6 равно 19. Ответ: 19.",
+    answers: { step1: 4, step2: 19, final: 19 },
+    stepsText: ["1) 4 + 2 = 6", "2) 13 + 6 = 19"]
+  },
+  {
+    left: "11 + (7 + 2) =",
+    right: "10 + (6 + 1) = 17",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 10 и суммы чисел 6 и 1. Считаю: 6 плюс 1 равно 7, потом 10 плюс 7 равно 17. Ответ: 17.",
+    answers: { step1: 9, step2: 17, final: 17 },
+    stepsText: ["1) 6 + 1 = 7", "2) 10 + 7 = 17"]
+  },
+  {
+    left: "12 + (5 + 3) =",
+    right: "14 + (3 + 3) = 20",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 14 и суммы чисел 3 и 3. Считаю: 3 плюс 3 равно 6, потом 14 плюс 6 равно 20. Ответ: 20.",
+    answers: { step1: 8, step2: 20, final: 20 },
+    stepsText: ["1) 3 + 3 = 6", "2) 14 + 6 = 20"]
+  },
+  // Тип 2: сумма + разность в скобках
+  {
+    left: "14 + (9 − 5) =",
+    right: "17 + (6 − 3) = 20",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 17 и разности чисел 6 и 3. Считаю: 6 минус 3 равно 3, потом 17 плюс 3 равно 20. Ответ: 20.",
+    answers: { step1: 4, step2: 18, final: 18 },
+    stepsText: ["1) 6 − 3 = 3", "2) 17 + 3 = 20"]
+  },
+  {
+    left: "12 + (10 − 6) =",
+    right: "15 + (8 − 4) = 19",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 15 и разности чисел 8 и 4. Считаю: 8 минус 4 равно 4, потом 15 плюс 4 равно 19. Ответ: 19.",
+    answers: { step1: 4, step2: 16, final: 16 },
+    stepsText: ["1) 8 − 4 = 4", "2) 15 + 4 = 19"]
+  },
+  {
+    left: "16 + (7 − 2) =",
+    right: "13 + (9 − 5) = 17",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это сумма: сумма числа 13 и разности чисел 9 и 5. Считаю: 9 минус 5 равно 4, потом 13 плюс 4 равно 17. Ответ: 17.",
+    answers: { step1: 5, step2: 21, final: 21 },
+    stepsText: ["1) 9 − 5 = 4", "2) 13 + 4 = 17"]
+  },
+  // Тип 3: разность + сумма в скобках
+  {
+    left: "18 − (10 + 5) =",
+    right: "19 − (9 + 4) = 6",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 19 и суммы чисел 9 и 4. Считаю: 9 плюс 4 равно 13, потом 19 минус 13 равно 6. Ответ: 6.",
+    answers: { step1: 15, step2: 3, final: 3 },
+    stepsText: ["1) 9 + 4 = 13", "2) 19 − 13 = 6"]
+  },
+  {
+    left: "20 − (13 + 4) =",
+    right: "17 − (11 + 3) = 3",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 17 и суммы чисел 11 и 3. Считаю: 11 плюс 3 равно 14, потом 17 минус 14 равно 3. Ответ: 3.",
+    answers: { step1: 17, step2: 3, final: 3 },
+    stepsText: ["1) 11 + 3 = 14", "2) 17 − 14 = 3"]
+  },
+  {
+    left: "16 − (7 + 2) =",
+    right: "15 − (6 + 4) = 5",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 15 и суммы чисел 6 и 4. Считаю: 6 плюс 4 равно 10, потом 15 минус 10 равно 5. Ответ: 5.",
+    answers: { step1: 9, step2: 7, final: 7 },
+    stepsText: ["1) 6 + 4 = 10", "2) 15 − 10 = 5"]
+  },
+  // Тип 4: разность + разность в скобках
+  {
+    left: "20 − (12 − 7) =",
+    right: "15 − (8 − 3) = 10",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 15 и разности чисел 8 и 3. Считаю: 8 минус 3 равно 5, потом 15 минус 5 равно 10. Ответ: 10.",
+    answers: { step1: 5, step2: 15, final: 15 },
+    stepsText: ["1) 8 − 3 = 5", "2) 15 − 5 = 10"]
+  },
+  {
+    left: "18 − (11 − 4) =",
+    right: "16 − (9 − 2) = 9",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 16 и разности чисел 9 и 2. Считаю: 9 минус 2 равно 7, потом 16 минус 7 равно 9. Ответ: 9.",
+    answers: { step1: 7, step2: 11, final: 11 },
+    stepsText: ["1) 9 − 2 = 7", "2) 16 − 7 = 9"]
+  },
+  {
+    left: "17 − (10 − 5) =",
+    right: "19 − (12 − 7) = 14",
+    speak: "В этом выражении два действия. Есть скобки, значит первое действие — в скобках, второе — вне скобок. По последнему действию это разность: разность числа 19 и разности чисел 12 и 7. Считаю: 12 минус 7 равно 5, потом 19 минус 5 равно 14. Ответ: 14.",
+    answers: { step1: 5, step2: 12, final: 12 },
+    stepsText: ["1) 12 − 7 = 5", "2) 19 − 5 = 14"]
+  }
+];
+
+/* ====== ОЗВУЧКА (Web Speech API) ====== */
+let ruVoice = null;
+
+function loadVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  ruVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ru')) || null;
+}
+
+// Голоса загружаются асинхронно — ждём событие
+if ('speechSynthesis' in window) {
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speakText(text) {
+  if (!('speechSynthesis' in window)) {
+    alert('Ваш браузер не поддерживает озвучку. Попробуйте Chrome или Safari.');
+    return;
+  }
+  // Останавливаем предыдущую озвучку, если была
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ru-RU';
+  utterance.rate = 0.85;   // замедляем — ребёнку понятнее
+  utterance.pitch = 1.0;
+  if (ruVoice) utterance.voice = ruVoice;
+
+  window.speechSynthesis.speak(utterance);
+}
+
+/* ====== ПОСТРОЕНИЕ ТАБЛИЦЫ ====== */
+function buildTable() {
+  const table = document.getElementById('examplesTable');
+  table.innerHTML = '';
+
+  EXAMPLES.forEach((ex, idx) => {
+    const tr = document.createElement('tr');
+    tr.className = 'row';
+
+    // Левая ячейка — решаем
+    const tdLeft = document.createElement('td');
+    tdLeft.className = 'left';
+    tdLeft.innerHTML = `
+      <span class="badge do">Реши сам</span>
+      <div class="expr">${ex.left}</div>
+      <div class="input-line">1-е действие: <input type="number" id="s1_${idx}" inputmode="numeric" placeholder="?"> </div>
+      <div class="input-line">2-е действие: <input type="number" id="s2_${idx}" inputmode="numeric" placeholder="?"> </div>
+      <div class="input-line">Ответ: <input type="number" id="fin_${idx}" inputmode="numeric" placeholder="?"> </div>
+      <button class="btn-check" onclick="checkAnswer(${idx})">Проверить</button>
+      <div class="result-msg" id="msg_${idx}"></div>
+    `;
+
+    // Правая ячейка — образец
+    const tdRight = document.createElement('td');
+    tdRight.className = 'right';
+    tdRight.innerHTML = `
+      <span class="badge sample">Образец — как говорить</span>
+      <div class="expr">${ex.right}</div>
+      <div class="speech">«${ex.speak}»</div>
+      <div class="steps">${ex.stepsText.map(s => `<span>${s}</span>`).join('')}</div>
+      <button class="btn-speak" onclick="speakText(\`${ex.speak.replace(/`/g, '\\`')}\`)">🔊 Как говорить</button>
+    `;
+
+    tr.appendChild(tdLeft);
+    tr.appendChild(tdRight);
+    table.appendChild(tr);
+  });
+}
+
+/* ====== ПРОВЕРКА ОТВЕТОВ ====== */
+function checkAnswer(idx) {
+  const ex = EXAMPLES[idx];
+  const s1 = document.getElementById(`s1_${idx}`);
+  const s2 = document.getElementById(`s2_${idx}`);
+  const fin = document.getElementById(`fin_${idx}`);
+  const msg = document.getElementById(`msg_${idx}`);
+
+  const v1 = parseInt(s1.value, 10);
+  const v2 = parseInt(s2.value, 10);
+  const vf = parseInt(fin.value, 10);
+
+  // Сбрасываем подсветку
+  [s1, s2, fin].forEach(inp => inp.classList.remove('correct', 'wrong'));
+
+  let allOk = true;
+
+  if (v1 === ex.answers.step1) { s1.classList.add('correct'); }
+  else if (!isNaN(v1)) { s1.classList.add('wrong'); allOk = false; }
+  else { allOk = false; }
+
+  if (v2 === ex.answers.step2) { s2.classList.add('correct'); }
+  else if (!isNaN(v2)) { s2.classList.add('wrong'); allOk = false; }
+  else { allOk = false; }
+
+  if (vf === ex.answers.final) { fin.classList.add('correct'); }
+  else if (!isNaN(vf)) { fin.classList.add('wrong'); allOk = false; }
+  else { allOk = false; }
+
+  if (allOk) {
+    msg.textContent = '✅ Верно! Молодец!';
+    msg.className = 'result-msg ok';
+  } else {
+    msg.textContent = '❌ Есть ошибка. Попробуй ещё или послушай образец справа.';
+    msg.className = 'result-msg fail';
+  }
+}
+
+/* ====== ЗАПУСК ====== */
+buildTable();
+</script>
+</body>
+</html>
