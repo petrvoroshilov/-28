@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" width="360" height="300">
+  <rect width="360" height="300" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+  <rect x="0" y="0" width="90" height="90" fill="#e2e8f0" stroke="#0f172a" stroke-width="3"/><text x="45" y="50" text-anchor="middle" font-size="14" fill="#0f172a">Прихожая</text>
+  <rect x="0" y="90" width="90" height="90" fill="#bae6fd" stroke="#0f172a" stroke-width="3"/><text x="45" y="140" text-anchor="middle" font-size="14" fill="#0f172a">Санузел</text>
+  <rect x="90" y="0" width="60" height="180" fill="#fde68a" stroke="#0f172a" stroke-width="3"/><text x="120" y="95" text-anchor="middle" font-size="14" fill="#0f172a" transform="rotate(-90 120 95)">Коридор</text>
+  <rect x="150" y="0" width="120" height="120" fill="#fecaca" stroke="#0f172a" stroke-width="3"/><text x="210" y="65" text-anchor="middle" font-size="14" fill="#0f172a">Кухня</text>
+  <rect x="150" y="120" width="210" height="180" fill="#bbf7d0" stroke="#0f172a" stroke-width="3"/><text x="255" y="215" text-anchor="middle" font-size="14" fill="#0f172a">Комната</text>
+  <rect x="90" y="180" width="60" height="120" fill="#ddd6fe" stroke="#0f172a" stroke-width="3"/><text x="120" y="245" text-anchor="middle" font-size="12" fill="#0f172a">Балкон</text>
+  <circle cx="300" cy="240" r="7" fill="#dc2626" stroke="#fff" stroke-width="3"/>
+</svg>

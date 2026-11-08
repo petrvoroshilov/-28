@@ -1,0 +1,19 @@
+{
+  "title": "Тайна хрущёвки",
+  "settings": { "age": "kid", "tts": true, "playerDamage": false, "haptics": true },
+  "map": { "scale": 60, "width": 6, "height": 5 },
+  "stages": [
+    { "zone": "Прихожая", "point": [0.8, 0.8], "riddle": "Где живут куртки и пахнет улицей", "name": "Костяш", "type": "bone", "hp": 100, "damagePerHit": 20, "dodge": 0.28, "hitbox": 1.3, "emerge": 1.4, "hideInterval": 6, "hideTime": 1.4 },
+    { "zone": "Кухня", "point": [3.2, 1.0], "riddle": "Там, где холодно и гудит", "name": "Мшистый", "type": "moss", "hp": 110, "damagePerHit": 20, "dodge": 0.3, "hitbox": 1.3, "emerge": 1.4, "hideInterval": 5.5, "hideTime": 1.3 },
+    { "zone": "Комната", "point": [3.5, 3.2], "riddle": "Где игрушки спят по ночам", "name": "Ледяной", "type": "azure", "hp": 120, "damagePerHit": 20, "dodge": 0.28, "hitbox": 1.3, "emerge": 1.5, "hideInterval": 6, "hideTime": 1.4 },
+    { "zone": "Санузел", "point": [0.8, 2.2], "riddle": "Где полотенца и вода", "name": "Уголёк", "type": "ember", "hp": 130, "damagePerHit": 22, "dodge": 0.26, "hitbox": 1.3, "emerge": 1.6, "hideInterval": 7, "hideTime": 1.2 },
+    { "zone": "Коридор", "point": [2.0, 1.8], "riddle": "Высокий тайник над головой", "name": "Сумрак", "type": "violet", "hp": 130, "damagePerHit": 22, "dodge": 0.32, "hitbox": 1.25, "emerge": 1.5, "hideInterval": 5, "hideTime": 1.3 },
+    { "zone": "Комната", "point": [5.0, 4.0], "riddle": "Финальный страж спрятался у окна", "name": "Страж Врат", "type": "armored", "hp": 220, "damagePerHit": 30, "dodge": 0.3, "hitbox": 1.25, "emerge": 1.6, "hideInterval": 6, "hideTime": 1.4, "sizeMul": 1.3, "miniBoss": true }
+  ],
+  "boss": { "name": "Хранитель Клада", "type": "boss", "hp": 360, "damagePerHit": 30, "dodge": 0.4, "hitbox": 1.1, "sizeMul": 1.35, "intro": "Клад мой, никто не пройдёт!" },
+  "treasure": {
+    "hint": "Красный крест на карте - антресоль в коридоре. Там сундук.",
+    "keyHint": "КЛЮЧ К КАРТЕ НАХОДИТСЯ В УЧЕБНИКЕ «ОКРУЖАЮЩИЙ МИР»",
+    "code": "4-1-9-3-7-2"
+  }
+}

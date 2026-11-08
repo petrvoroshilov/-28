@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Админка — Voxel Treasure Hunt</title>
+<link rel="stylesheet" href="./admin.css"/>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+<header><h1>Админка квеста</h1><div class="hrow"><button id="saveBtn">Сохранить (в браузер)</button><button id="exportBtn">Скачать quest.json</button><label class="filebtn">Импортировать<input type="file" id="importFile" accept="application/json" hidden></label><button id="printBtn">Печать QR-карточек</button><button id="openGameBtn">Открыть игру</button></div></header>
+<main>
+  <section class="card"><h2>Общее</h2>
+    <label>Название квеста <input id="qTitle"></label>
+    <label>Режим возраста
+      <select id="qAge"><option value="kid">Ребёнок 7 лет (мягко)</option><option value="teen">Подросток 14 (сложнее)</option><option value="hard">Хардкор (урон игроку)</option></select>
+    </label>
+    <label><input type="checkbox" id="qTts"> Озвучка загадок и реплик (TTS)</label>
+    <p class="note">Печатаются: стартовая карточка THSTART и карточки этапов THMARK:1..N. Кусков = числу этапов. Последний этап автоматически становится МИНИ-БОССом.</p>
+    <label>Подсказка, где клад / сундук <input id="qHint"></label>
+    <label>Финальная подсказка: где ключ / книга <textarea id="qKeyHint" rows="3"></textarea></label>
+    <label>Код сундука <input id="qCode"></label>
+  </section>
+  <section class="card"><h2>Этапы (скелеты)</h2><div id="stages"></div><button id="addStage">+ добавить этап</button></section>
+  <section class="card"><h2>Босс</h2><div id="bossBox"></div></section>
+</main>
+<div id="printArea"></div>
+<script src="./src/admin.js"></script>
+</body>
+</html>

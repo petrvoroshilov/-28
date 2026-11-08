@@ -1,0 +1,1 @@
+{"name":"Voxel Treasure Hunt","short_name":"Treasure AR","start_url":"./index.html","display":"standalone","background_color":"#0f172a","theme_color":"#111827","icons":[{"src":"./public/icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},{"src":"./public/icons/icon.svg","sizes":"192x192","type":"image/svg+xml","purpose":"maskable"}]}

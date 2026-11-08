@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+<title>Voxel Treasure Hunt</title>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<meta name="theme-color" content="#111827"/>
+<link rel="icon" href="./public/icons/icon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="./styles.css"/>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+</head>
+<body>
+<script>
+(function(){
+  var b=document.createElement('div'); b.id='diag';
+  b.style.cssText='position:fixed;top:4px;left:4px;z-index:99999;background:rgba(0,0,0,.74);color:#86efac;font:11px/1.35 ui-monospace,Monaco,Consolas,monospace;padding:3px 7px;border-radius:6px;pointer-events:none;max-width:62vw;white-space:pre-wrap;box-shadow:0 2px 8px rgba(0,0,0,.45)';
+  b.textContent='BOOT...'; document.body.appendChild(b);
+  function set(t,c){ b.textContent=String(t); b.style.color=c||'#86efac'; }
+  window.__diag=set;
+  window.addEventListener('error',function(e){ set('ERR: '+(e.message||e.type)+(e.filename?(' @'+String(e.filename).split('/').pop()+':'+e.lineno):''),'#fca5a5'); });
+  window.addEventListener('unhandledrejection',function(e){ var r=e.reason; set('REJ: '+((r&&(r.message||r.toString()))||r),'#fca5a5'); });
+  document.addEventListener('pointerdown',function(e){ var t=(e.target&&e.target.closest)?e.target.closest('[data-action]'):null; if(t) set('TAP v '+t.getAttribute('data-action'),'#fde047'); },true);
+  document.addEventListener('click',function(e){ var t=(e.target&&e.target.closest)?e.target.closest('[data-action]'):null; if(!t)return; var a=t.getAttribute('data-action'); set('CLICK > '+a,'#93c5fd'); if(window.TH&&window.TH.handleAction){ try{ window.TH.handleAction(a); }catch(err){ set('ACTION ERR ['+a+']: '+((err&&err.message)||err),'#fca5a5'); } } else { set('CLICK > '+a+'  (main.js не загрузился)','#fca5a5'); } });
+  setTimeout(function(){ if(!window.TH) set('main.js НЕ инициализирован. Красный текст выше - причина.','#fca5a5'); },1200);
+})();
+</script>
+
+<video id="camera" playsinline muted autoplay></video>
+<canvas id="battle-canvas"></canvas>
+<div id="inputLayer"></div>
+<div id="damage-layer"></div>
+<div id="reticle"><div id="chargeRing"></div><div class="cross-h"></div><div class="cross-v"></div></div>
+
+<div id="scanOverlay" class="hidden">
+  <div class="scan-top">
+    <button data-action="map">Карта</button>
+    <strong>AR-скан</strong>
+    <button data-action="scan">Выключить</button>
+  </div>
+  <p class="scan-tip">Наведи камеру на QR-карточку, не трогая её. Скелет появится поверх реального фона.</p>
+</div>
+
+<div id="ui">
+  <section id="menu" class="panel active">
+    <h1>Voxel Treasure Hunt</h1>
+    <p>Наведи телефон на стартовую карточку, найди маркеры, победи скелетов-лучников, собери карту сокровищ и открой клад.</p>
+    <div class="buttons">
+      <button data-action="scan">AR-скан / начать по карточке</button>
+      <button data-action="map">Карта квартиры</button>
+      <button data-action="mapCard">Карта сокровищ</button>
+      <button data-action="collection">Коллекция скелетов</button>
+      <button data-action="puzzleGo" id="btnPuzzle" class="hidden">Собрать пазл руками</button>
+      <button data-action="bossGo" id="btnBoss" class="hidden">Бой с боссом</button>
+      <button data-action="admin">Админка / настройки</button>
+      <button data-action="reset">Сбросить прогресс</button>
+    </div>
+    <div class="small">Куски карты: <span id="fragmentCount">0/0</span> · Коллекция: <span id="collectionCount">0/0</span> · Режим: <span id="modeLabel">ребёнок 7 лет</span></div>
+  </section>
+
+  <section id="mapPanel" class="panel">
+    <div class="panel-header">
+      <button data-action="back">&larr; Меню</button>
+      <strong>Карта квартиры</strong>
+      <button data-action="scan" id="scanToggle">Скан: выкл</button>
+      <button data-action="scanView">AR-вид</button>
+    </div>
+    <div id="mapViewport"><div id="mapWrap"><img id="mapImg" src="./quests/default/map.svg" alt="План"/><div id="mapDots"></div></div></div>
+    <p id="riddle"></p>
+    <p id="scanHint">Наведи телефон на QR-карточку, не трогая её. Скелет появится поверх камеры.</p>
+  </section>
+
+  <section id="mapCardPanel" class="panel">
+    <div class="panel-header"><button data-action="back">&larr; Меню</button><strong>Карта сокровищ</strong>
+      <button data-action="puzzleGo" id="mcPuzzle" class="hidden">Собрать пазл руками</button>
+      <button data-action="bossGo" id="mcBoss" class="hidden">Бой с боссом</button>
+    </div>
+    <div id="treasureGrid"></div>
+    <p id="mapCardInfo"></p>
+  </section>
+
+  <section id="collectionPanel" class="panel">
+    <div class="panel-header"><button data-action="back">&larr; Меню</button><strong>Коллекция скелетов</strong></div>
+    <div id="collectionGrid"></div>
+    <p id="collectionInfo"></p>
+  </section>
+
+  <section id="puzzlePanel" class="panel">
+    <div class="panel-header"><button data-action="mapCard">&larr; Карта</button><strong>Пазл карты</strong><button data-action="puzzleHint">Подсказка</button></div>
+    <div id="puzzleBoard"></div>
+    <div id="puzzleTray"></div>
+    <p id="puzzleInfo">Перетащи куски в правильные клетки.</p>
+  </section>
+
+  <section id="treasurePanel" class="panel">
+    <div class="panel-header"><button data-action="back">&larr; Меню</button><strong>Клад!</strong></div>
+    <canvas id="fx-canvas"></canvas>
+    <div id="treasureBox">
+      <h2 id="treasureTitle">Карта собрана! Ищи ключ</h2>
+      <p id="treasureKey" class="keyclue"></p>
+      <p id="treasureHint"></p>
+      <p id="treasureCode" class="code"></p>
+      <button data-action="back">В меню</button>
+    </div>
+  </section>
+</div>
+
+<div id="battleHud">
+  <div class="hp-wrap"><div id="stageLabel"></div><div class="hp-bar"><div id="hpFill"></div></div><div id="hpText"></div></div>
+  <div id="playerHpWrap" class="hidden"><div class="phbar"><div id="playerHpFill"></div></div><span id="playerHpText"></span></div>
+  <div id="enemyTag"><div class="ename" id="enemyName">Костяш</div><div class="ehp"><div id="enemyHpFill"></div></div></div>
+  <div id="phaseLabel"></div>
+  <div id="combo"></div>
+  <div id="battleHint"></div>
+  <button id="attackBtn">ДЕРЖИ / БРОСАЙ</button>
+</div>
+
+<div id="toast"></div>
+<script src="./src/main.js"></script>
+</body>
+</html>
